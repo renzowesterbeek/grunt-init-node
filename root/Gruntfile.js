@@ -14,8 +14,8 @@ module.exports = function(grunt){
         banner: '<%= banner %>'
       },
       dist: {
-        src: '<%= concat.js.dest %>',
-        dest: 'dist/js/scripts.min.js'
+        src: '*.js',
+        dest: 'dist/'
       }
     },
     jshint: {
@@ -23,51 +23,28 @@ module.exports = function(grunt){
         src: 'Gruntfile.js'
       },
       source: {
-        src: ['js/**/*.js']
+        src: ['*.js']
       },
       dist: {
-        src: ['dist/js/**/*.js']
+        src: ['dist/*.js']
       }
     },
-	  copy: {
-		  assets: {
-		    src: 'assets/**/*',
-		    dest: 'dist/',
-		  },
-		},
-		clean: {
-		  dist: {
-		    src: ["dist/"]
-		  }
-		},
 		watch: {
 	    js: {
-	      files: ['js/**/*.js'],
-	      tasks: ['jshint:source', 'concat', 'uglify'],
-	    },
-	    style: {
-	      files: ['css/**/*.scss'],
-	      tasks: ['sass'],
-	    },
-	    html: {
-	      files: '/**/*.html',
-	      tasks: ['htmlmin'],
+	      files: ['*.js'],
+	      tasks: ['jshint:source'],
 	    },
 	  } // end of task config
 
 	}); // end of grunt.initConfig
 
 	// Load plugins
-	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-clean');
 
 	// Tasks
-	grunt.registerTask('test', ['jshint']);
-	grunt.registerTask('default', ['clean', 'jshint', 'concat', 'uglify', 'sass', 'htmlmin', 'copy']);
-	grunt.registerTask('deploy', ['clean', 'concat', 'uglify', 'sass', 'htmlmin', 'copy', 'ftp-deploy']);
+	grunt.registerTask('default', ['jshint']);
+	grunt.registerTask('deploy', ['jshint', 'uglify']);
 
 };
